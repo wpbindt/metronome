@@ -1,6 +1,8 @@
+from __future__ import annotations
 import threading
 from time import sleep
-from typing import Callable, Protocol
+from types import TracebackType
+from typing import Callable, Optional, Protocol, Type
 
 
 class ModelObserver(Protocol):
@@ -15,10 +17,16 @@ class Model:
         self._observers: list[ModelObserver] = []
         self._initialize_thread()
 
-    def __enter__(self, *args, **kwargs) -> None:
+    def __enter__(self) -> Model:
         self.start()
+        return self
 
-    def __exit__(self, *args, **kwargs) -> None:
+    def __exit__(
+        self,
+        exc_type: Optional[Type[BaseException]],
+        exc_value: Optional[BaseException],
+        traceback: Optional[TracebackType]
+    ) -> None:
         self.stop()
 
     @property
