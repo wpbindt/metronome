@@ -13,14 +13,13 @@ class Model:
         self._bpm: int = bpm
         self._beat = beat
         self._observers: list[ModelObserver] = []
-        self._stop_event = threading.Event()
-        self._beat_thread = threading.Thread(target=self._beat_loop)
+        self._initialize_thread()
 
     def __enter__(self, *args, **kwargs) -> None:
-        self._beat_thread.start()
+        self.start()
 
     def __exit__(self, *args, **kwargs) -> None:
-        self._stop_event.set()
+        self.stop()
 
     @property
     def bpm(self) -> int:
@@ -35,6 +34,17 @@ class Model:
     @property
     def _seconds_per_beat(self) -> int:
         return 60 / self.bpm
+
+    def _initialize_thread(self) -> None:
+        self._stop_event = threading.Event()
+        self._beat_thread = threading.Thread(target=self._beat_loop)
+
+    def start(self) -> None:
+        self._initialize_thread()
+        self._beat_thread.start()
+
+    def stop(self) -> None:
+        self._stop_event.set()
 
     def _beat_loop(self) -> None:
         while not self._stop_event.is_set():

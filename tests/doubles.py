@@ -30,3 +30,6 @@ class FakeSound:
 
     def __call__(self) -> None:
         self.calls += 1
+
+    def reset(self) -> None:
+        self.calls = 0
