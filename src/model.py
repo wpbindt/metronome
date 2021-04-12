@@ -1,4 +1,4 @@
-from threading import Thread
+import threading
 from time import sleep
 from typing import Callable, Protocol
 
@@ -12,9 +12,15 @@ class Model:
     def __init__(self, bpm: int, beat: Callable[[], None]) -> None:
         self._bpm: int = bpm
         self._beat = beat
-        self.observers: list[ModelObserver] = []
-        beat_thread = Thread(target=self._beat_loop)
-        beat_thread.start()
+        self._observers: list[ModelObserver] = []
+        self._stop_event = threading.Event()
+        self._beat_thread = threading.Thread(target=self._beat_loop)
+
+    def __enter__(self, *args, **kwargs) -> None:
+        self._beat_thread.start()
+
+    def __exit__(self, *args, **kwargs) -> None:
+        self._stop_event.set()
 
     @property
     def bpm(self) -> int:
@@ -23,18 +29,18 @@ class Model:
     @bpm.setter
     def bpm(self, value: int) -> None:
         self._bpm = value
-        for observer in self.observers:
+        for observer in self._observers:
             observer.update()
 
     @property
-    def seconds_per_beat(self) -> int:
+    def _seconds_per_beat(self) -> int:
         return 60 / self.bpm
 
     def _beat_loop(self) -> None:
-        while True:
+        while not self._stop_event.is_set():
             self._beat()
-            sleep(self.seconds_per_beat)
+            sleep(self._seconds_per_beat)
 
     def register(self, observer: ModelObserver) -> None:
-        self.observers.append(observer)
+        self._observers.append(observer)
         observer.update()

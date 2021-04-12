@@ -13,7 +13,8 @@ parser.add_argument('bpm', type=int, default=120)
 args = parser.parse_args()
 
 model = Model(bpm=args.bpm, beat=lambda: play_sound('assets/test_sound.wav'))
-window = tk.Tk()
-view = TkView(master=window)
-controller = Controller(view=view, model=model)
-window.mainloop()
+with model:
+    window = tk.Tk()
+    view = TkView(master=window)
+    controller = Controller(view=view, model=model)
+    window.mainloop()

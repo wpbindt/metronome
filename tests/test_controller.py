@@ -12,10 +12,11 @@ def test_controller():
     view = FakeView()
     controller = Controller(model=model, view=view)
 
-    view.press_down()
-    assert view.bpm == 119
-    assert model.bpm == 119
+    with model:
+        view.press_down()
+        assert view.bpm == 119
+        assert model.bpm == 119
 
-    view.press_up()
-    assert view.bpm == 120
-    assert model.bpm == 120
+        view.press_up()
+        assert view.bpm == 120
+        assert model.bpm == 120
