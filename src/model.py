@@ -5,7 +5,7 @@ from typing import Callable
 
 class Model:
     def __init__(self, beat: Callable[[], None]) -> None:
-        self.bpm = 120
+        self.bpm: int = 120
         self._beat = beat
         beat_thread = Thread(target=self._beat_loop)
         beat_thread.start()
