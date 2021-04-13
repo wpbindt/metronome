@@ -29,11 +29,11 @@ class Controls(tk.Frame):
         super().__init__(master=master)
 
         up_button = tk.Button(master=self, text='+', width=2)
-        up_button.bind('<Button 1>', controller.up_action)
+        up_button.bind('<Button 1>', lambda event: controller.up_action())
         up_button.pack()
 
         down_button = tk.Button(master=self, text='-', width=2)
-        down_button.bind('<Button 1>', controller.down_action)
+        down_button.bind('<Button 1>', lambda event: controller.down_action())
         down_button.pack()
 
 
@@ -44,7 +44,6 @@ class View(tk.Frame):
         controller = ControlsController(model=model)
         controls = Controls(
             master=self,
-            model=model,
             controller=controller,
         )
         display.pack(side=tk.LEFT)
