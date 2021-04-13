@@ -1,12 +1,21 @@
+from dataclasses import dataclass
 from .model import Model
 
 
+@dataclass
 class ControlsController:
-    def __init__(self, model: Model) -> None:
-        self.model = model
+    model: Model
 
     def up_action(self) -> None:
         self.model.bpm += 1
 
     def down_action(self) -> None:
         self.model.bpm -= 1
+
+
+@dataclass
+class PlayPauseController:
+    model: Model
+
+    def button_action(self) -> None:
+        ...

@@ -22,3 +22,14 @@ def test_model():
     sleep(0.51)
     model.stop()
     assert fake_sound.calls == 5
+
+
+def test_is_playing():
+    fake_sound = FakeSound()
+    model = Model(bpm=240, beat=fake_sound)
+
+    model.start()
+    assert model.is_playing
+
+    model.stop()
+    assert not model.is_playing
