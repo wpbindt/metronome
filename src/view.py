@@ -64,25 +64,25 @@ class View(tk.Frame):
     def __init__(self, master: tk.Tk, model: Model) -> None:
         super().__init__(master=master)
 
-        top_frame = tk.Frame(master=self)
-        display = Display(master=top_frame, model=model)
-        display.pack(side=tk.LEFT)
-
-        controls_controller = ControlsController(model=model)
-        controls = Controls(
-            master=top_frame,
-            controller=controls_controller,
-        )
-        controls.pack(side=tk.RIGHT)
-
-        top_frame.pack()
+        left_frame = tk.Frame(master=self)
+        display = Display(master=left_frame, model=model)
+        display.pack(side=tk.TOP)
 
         play_pause_controller = PlayPauseController(model)
         play_pause = PlayPauseView(
-            master=self,
+            master=left_frame,
             model=model,
             controller=play_pause_controller
         )
         play_pause.pack(side=tk.BOTTOM)
+
+        left_frame.pack(side=tk.LEFT)
+
+        controls_controller = ControlsController(model=model)
+        controls = Controls(
+            master=self,
+            controller=controls_controller,
+        )
+        controls.pack(side=tk.RIGHT)
 
         self.pack()
