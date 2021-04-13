@@ -1,6 +1,6 @@
 import tkinter as tk
 
-from .controller import ControlsController
+from .controller import ControlsController, PlayPauseController
 from .model import Model
 
 
@@ -37,15 +37,52 @@ class Controls(tk.Frame):
         down_button.pack()
 
 
+class PlayPauseView(tk.Frame):
+    def __init__(
+        self,
+        master: tk.Frame,
+        model: Model,
+        controller: PlayPauseController,
+    ) -> None:
+        super().__init__(master=master)
+
+        self.button = tk.Button(master=self, text='play')
+        self.button.bind(
+            '<Button 1>',
+            lambda event: controller.button_action()
+        )
+        self.button.pack()
+
+        model.register(self)
+        self.update(model)
+
+    def update(self, model: Model) -> None:
+        self.button['text'] = 'pause' if model.is_playing else 'play'
+
+
 class View(tk.Frame):
     def __init__(self, master: tk.Tk, model: Model) -> None:
         super().__init__(master=master)
-        display = Display(master=self, model=model)
-        controller = ControlsController(model=model)
-        controls = Controls(
-            master=self,
-            controller=controller,
-        )
+
+        top_frame = tk.Frame(master=self)
+        display = Display(master=top_frame, model=model)
         display.pack(side=tk.LEFT)
+
+        controls_controller = ControlsController(model=model)
+        controls = Controls(
+            master=top_frame,
+            controller=controls_controller,
+        )
         controls.pack(side=tk.RIGHT)
+
+        top_frame.pack()
+
+        play_pause_controller = PlayPauseController(model)
+        play_pause = PlayPauseView(
+            master=self,
+            model=model,
+            controller=play_pause_controller
+        )
+        play_pause.pack(side=tk.BOTTOM)
+
         self.pack()
