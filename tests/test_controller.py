@@ -1,6 +1,6 @@
-from src.controller import Controller
+from src.controller import ControlsController
 from src.model import Model
-from tests.doubles import FakeSound, FakeView
+from tests.doubles import FakeSound
 
 
 def test_controller():
@@ -9,14 +9,11 @@ def test_controller():
         beat=fake_sound,
         bpm=120
     )
-    view = FakeView()
-    controller = Controller(model=model, view=view)
+    controller = ControlsController(model=model)
 
     with model:
-        view.press_down()
-        assert view.bpm == 119
-        assert model.bpm == 119
+        controller.up_action()
+        assert model.bpm == 121
 
-        view.press_up()
-        assert view.bpm == 120
+        controller.down_action()
         assert model.bpm == 120
