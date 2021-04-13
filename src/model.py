@@ -16,6 +16,7 @@ class Model:
         self._beat = beat
         self._observers: list[ModelObserver] = []
         self._initialize_thread()
+        self._is_playing = False
 
     def __enter__(self) -> Model:
         self.start()
@@ -40,6 +41,16 @@ class Model:
             observer.update(self)
 
     @property
+    def is_playing(self) -> bool:
+        return self._is_playing
+
+    @is_playing.setter
+    def is_playing(self, value: int) -> None:
+        self._is_playing = value
+        for observer in self._observers:
+            observer.update(self)
+
+    @property
     def _seconds_per_beat(self) -> int:
         return 60 / self.bpm
 
@@ -48,10 +59,12 @@ class Model:
         self._beat_thread = threading.Thread(target=self._beat_loop)
 
     def start(self) -> None:
+        self.is_playing = True
         self._initialize_thread()
         self._beat_thread.start()
 
     def stop(self) -> None:
+        self.is_playing = False
         self._stop_event.set()
 
     def _beat_loop(self) -> None:
