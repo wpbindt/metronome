@@ -28,6 +28,7 @@ class Model:
         exc_value: Optional[BaseException],
         traceback: Optional[TracebackType]
     ) -> None:
+        self._observers = []
         self.stop()
 
     @property
