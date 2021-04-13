@@ -5,7 +5,7 @@ from .model import Model
 
 
 class Display(tk.Frame):
-    def __init__(self, master: tk.Frame, model: Model, side: str) -> None:
+    def __init__(self, master: tk.Frame, model: Model) -> None:
         super().__init__(master=master, height=2)
 
         self.bpm = tk.Label(master=self, text=str(model.bpm))
@@ -16,8 +16,6 @@ class Display(tk.Frame):
 
         model.register(self)
 
-        self.pack(side=side)
-
     def update(self, model: Model) -> None:
         self.bpm['text'] = str(model.bpm)
 
@@ -27,7 +25,6 @@ class Controls(tk.Frame):
         self,
         master: tk.Frame,
         controller: ControlsController,
-        side: str
     ) -> None:
         super().__init__(master=master)
 
@@ -39,4 +36,17 @@ class Controls(tk.Frame):
         down_button.bind('<Button 1>', controller.down_action)
         down_button.pack()
 
-        self.pack(side=side)
+
+class View(tk.Frame):
+    def __init__(self, master: tk.Tk, model: Model) -> None:
+        super().__init__(master=master)
+        display = Display(master=self, model=model)
+        controller = ControlsController(model=model)
+        controls = Controls(
+            master=self,
+            model=model,
+            controller=controller,
+        )
+        display.pack(side=tk.LEFT)
+        controls.pack(side=tk.RIGHT)
+        self.pack()
