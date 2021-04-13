@@ -6,7 +6,7 @@ from typing import Callable, Optional, Protocol, Type
 
 
 class ModelObserver(Protocol):
-    def update(self, model: Model) -> None:
+    def update_(self, model: Model) -> None:
         ...
 
 
@@ -39,20 +39,20 @@ class Model:
     def bpm(self, value: int) -> None:
         self._bpm = value
         for observer in self._observers:
-            observer.update(self)
+            observer.update_(self)
 
     @property
     def is_playing(self) -> bool:
         return self._is_playing
 
     @is_playing.setter
-    def is_playing(self, value: int) -> None:
+    def is_playing(self, value: bool) -> None:
         self._is_playing = value
         for observer in self._observers:
-            observer.update(self)
+            observer.update_(self)
 
     @property
-    def _seconds_per_beat(self) -> int:
+    def _seconds_per_beat(self) -> float:
         return 60 / self.bpm
 
     def _initialize_thread(self) -> None:

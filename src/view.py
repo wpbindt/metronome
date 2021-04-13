@@ -16,7 +16,7 @@ class Display(tk.Frame):
 
         model.register(self)
 
-    def update(self, model: Model) -> None:
+    def update_(self, model: Model) -> None:
         self.bpm['text'] = str(model.bpm)
 
 
@@ -54,9 +54,9 @@ class PlayPauseView(tk.Frame):
         self.button.pack()
 
         model.register(self)
-        self.update(model)
+        self.update_(model)
 
-    def update(self, model: Model) -> None:
+    def update_(self, model: Model) -> None:
         self.button['text'] = 'pause' if model.is_playing else 'play'
 
 

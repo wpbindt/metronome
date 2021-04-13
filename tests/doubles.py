@@ -18,5 +18,5 @@ class FakeSound:
 class FakeModelObserver:
     updates: int = 0
 
-    def update(self, model: Model) -> None:
+    def update_(self, model: Model) -> None:
         self.updates += 1
