@@ -18,4 +18,7 @@ class PlayPauseController:
     model: Model
 
     def button_action(self) -> None:
-        ...
+        if self.model.is_playing:
+            self.model.stop()
+        else:
+            self.model.start()
