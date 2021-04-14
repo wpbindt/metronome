@@ -1,3 +1,4 @@
+from __future__ import annotations
 from abc import ABC, abstractmethod
 from typing import Generic, Optional, TypeVar
 
@@ -6,7 +7,7 @@ T = TypeVar('T')
 
 class Observer(Generic[T], ABC):
     @abstractmethod
-    def update_(self, value: T):
+    def update_(self, value: T) -> None:
         ...
 
 
@@ -24,3 +25,8 @@ class Observable(Generic[T]):
         if self._value is None:
             raise AttributeError('Value not set')
         return self._value
+
+    @classmethod
+    def create(cls) -> tuple[list[Observer[T]], Observable[T]]:
+        observers: list[Observer[T]] = []
+        return observers, cls(observers)

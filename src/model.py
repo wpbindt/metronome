@@ -13,10 +13,8 @@ class ModelObserver(Protocol):
 
 
 class Model:
-    _bpm_observers: list[Observer[int]] = []
-    bpm = Observable(_bpm_observers)
-    _is_playing_observers: list[Observer[bool]] = []
-    is_playing = Observable(_is_playing_observers)
+    _bpm_observers, bpm = Observable[int].create()
+    _is_playing_observers, is_playing = Observable[bool].create()
 
     def __init__(self, bpm: int, beat: Callable[[], None]) -> None:
         self.bpm = bpm
