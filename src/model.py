@@ -4,6 +4,8 @@ from time import sleep
 from types import TracebackType
 from typing import Callable, Optional, Protocol, Type
 
+from .observable import Observable, Observer
+
 
 class ModelObserver(Protocol):
     def update_(self, model: Model) -> None:
@@ -11,12 +13,16 @@ class ModelObserver(Protocol):
 
 
 class Model:
+    _bpm_observers: list[Observer[int]] = []
+    bpm = Observable(_bpm_observers)
+    _is_playing_observers: list[Observer[bool]] = []
+    is_playing = Observable(_is_playing_observers)
+
     def __init__(self, bpm: int, beat: Callable[[], None]) -> None:
-        self._bpm: int = bpm
+        self.bpm = bpm
         self._beat = beat
-        self._observers: list[ModelObserver] = []
         self._initialize_thread()
-        self._is_playing = False
+        self.is_playing = False
 
     def __enter__(self) -> Model:
         self.start()
@@ -28,28 +34,15 @@ class Model:
         exc_value: Optional[BaseException],
         traceback: Optional[TracebackType]
     ) -> None:
-        self._observers = []
+        self._bpm_observers[:] = []
+        self._is_playing_observers[:] = []
         self.stop()
 
-    @property
-    def bpm(self) -> int:
-        return self._bpm
+    def register_for_bpm(self, observer: Observer[int]) -> None:
+        self._bpm_observers.append(observer)
 
-    @bpm.setter
-    def bpm(self, value: int) -> None:
-        self._bpm = value
-        for observer in self._observers:
-            observer.update_(self)
-
-    @property
-    def is_playing(self) -> bool:
-        return self._is_playing
-
-    @is_playing.setter
-    def is_playing(self, value: bool) -> None:
-        self._is_playing = value
-        for observer in self._observers:
-            observer.update_(self)
+    def register_for_is_playing(self, observer: Observer[bool]) -> None:
+        self._is_playing_observers.append(observer)
 
     @property
     def _seconds_per_beat(self) -> float:
@@ -77,6 +70,3 @@ class Model:
         while not stop_event.is_set():
             self._beat()
             sleep(self._seconds_per_beat)
-
-    def register(self, observer: ModelObserver) -> None:
-        self._observers.append(observer)

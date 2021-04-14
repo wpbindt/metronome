@@ -1,11 +1,11 @@
 from time import sleep
 
 from src.model import Model
-from tests.doubles import FakeModelObserver, FakeSound
+from tests.doubles import FakeObserver, FakeSound
 
 
 def test_model(model: Model, sound: FakeSound) -> None:
-    fake_observer = FakeModelObserver()
+    fake_observer: FakeObserver[int] = FakeObserver()
 
     model.start()
     sleep(0.51)
@@ -16,7 +16,7 @@ def test_model(model: Model, sound: FakeSound) -> None:
     assert sound.calls == 3
 
     sound.reset()
-    model.register(fake_observer)
+    model.register_for_bpm(fake_observer)
     model.bpm = 480
     assert fake_observer.updates == 1
 
@@ -26,8 +26,8 @@ def test_model(model: Model, sound: FakeSound) -> None:
 
 
 def test_is_playing(model: Model, sound: FakeSound) -> None:
-    fake_observer = FakeModelObserver()
-    model.register(fake_observer)
+    fake_observer: FakeObserver[bool] = FakeObserver()
+    model.register_for_is_playing(fake_observer)
 
     model.start()
     assert model.is_playing

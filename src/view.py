@@ -2,9 +2,10 @@ import tkinter as tk
 
 from .controller import ControlsController, PlayPauseController
 from .model import Model
+from .observable import Observer
 
 
-class Display(tk.Frame):
+class Display(tk.Frame, Observer[int]):
     def __init__(self, master: tk.Frame, model: Model) -> None:
         super().__init__(master=master, height=2)
 
@@ -14,10 +15,10 @@ class Display(tk.Frame):
         unit = tk.Label(master=self, text='bpm')
         unit.pack(side=tk.RIGHT)
 
-        model.register(self)
+        model.register_for_bpm(self)
 
-    def update_(self, model: Model) -> None:
-        self.bpm['text'] = str(model.bpm)
+    def update_(self, value: int) -> None:
+        self.bpm['text'] = str(value)
 
 
 class Controls(tk.Frame):
@@ -37,7 +38,7 @@ class Controls(tk.Frame):
         down_button.pack()
 
 
-class PlayPauseView(tk.Frame):
+class PlayPauseView(tk.Frame, Observer[bool]):
     def __init__(
         self,
         master: tk.Frame,
@@ -53,11 +54,11 @@ class PlayPauseView(tk.Frame):
         )
         self.button.pack()
 
-        model.register(self)
-        self.update_(model)
+        model.register_for_is_playing(self)
+        self.update_(model.is_playing)
 
-    def update_(self, model: Model) -> None:
-        self.button['text'] = 'pause' if model.is_playing else 'play'
+    def update_(self, value: bool) -> None:
+        self.button['text'] = 'pause' if value else 'play'
 
 
 class View(tk.Frame):

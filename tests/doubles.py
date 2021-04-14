@@ -1,6 +1,7 @@
 from dataclasses import dataclass
+from typing import TypeVar
 
-from src.model import Model
+from src.observable import Observer
 
 
 @dataclass
@@ -14,9 +15,12 @@ class FakeSound:
         self.calls = 0
 
 
+T = TypeVar('T')
+
+
 @dataclass
-class FakeModelObserver:
+class FakeObserver(Observer[T]):
     updates: int = 0
 
-    def update_(self, model: Model) -> None:
+    def update_(self, value: T) -> None:
         self.updates += 1
