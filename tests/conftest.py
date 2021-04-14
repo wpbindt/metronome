@@ -1,3 +1,5 @@
+from typing import Generator
+
 import pytest
 
 from src.model import Model
@@ -10,5 +12,7 @@ def sound() -> FakeSound:
 
 
 @pytest.fixture
-def model(sound: FakeSound) -> Model:
-    return Model(bpm=240, beat=sound)
+def model(sound: FakeSound) -> Generator[Model, None, None]:
+    model = Model(bpm=240, beat=sound)
+    yield model
+    model.stop()

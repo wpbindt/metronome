@@ -22,7 +22,6 @@ def test_model(model: Model, sound: FakeSound) -> None:
 
     model.start()
     sleep(0.51)
-    model.stop()
     assert sound.calls == 5
 
 
@@ -50,5 +49,4 @@ def test_rapid_start_stop(model: Model, sound: FakeSound) -> None:
     model.stop()
     model.start()
     sleep(0.41)
-    model.stop()
     assert sound.calls == 3
