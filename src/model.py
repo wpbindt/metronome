@@ -17,9 +17,8 @@ class Model:
         self._initialize_thread()
         self.is_playing = False
 
-    def __enter__(self) -> Model:
+    def __enter__(self) -> None:
         self.start()
-        return self
 
     def __exit__(
         self,
@@ -27,9 +26,7 @@ class Model:
         exc_value: Optional[BaseException],
         traceback: Optional[TracebackType]
     ) -> None:
-        self._bpm_observers[:] = []
-        self._is_playing_observers[:] = []
-        self.stop()
+        self.quit()
 
     def register_for_bpm(self, observer: Observer[int]) -> None:
         self._bpm_observers.append(observer)
@@ -42,24 +39,24 @@ class Model:
         return 60 / self.bpm
 
     def _initialize_thread(self) -> None:
-        self._stop_event = threading.Event()
-        self._beat_thread = threading.Thread(
-            target=self._beat_loop,
-            args=(self._stop_event,)
-        )
+        self._can_play = threading.Event()
+        self._quit_event = threading.Event()
+        beat_thread = threading.Thread(target=self._beat_loop)
+        beat_thread.start()
 
     def start(self) -> None:
-        if self.is_playing:
-            return
+        self._can_play.set()
         self.is_playing = True
-        self._initialize_thread()
-        self._beat_thread.start()
 
     def stop(self) -> None:
+        self._can_play.clear()
         self.is_playing = False
-        self._stop_event.set()
 
-    def _beat_loop(self, stop_event: threading.Event) -> None:
-        while not stop_event.is_set():
+    def quit(self) -> None:
+        self._quit_event.set()
+
+    def _beat_loop(self) -> None:
+        while not self._quit_event.is_set():
+            self._can_play.wait()
             self._beat()
             sleep(self._seconds_per_beat)

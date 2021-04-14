@@ -15,4 +15,4 @@ def sound() -> FakeSound:
 def model(sound: FakeSound) -> Generator[Model, None, None]:
     model = Model(bpm=240, beat=sound)
     yield model
-    model.stop()
+    model.quit()
