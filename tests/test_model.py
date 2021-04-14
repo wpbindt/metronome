@@ -1,23 +1,33 @@
 from time import sleep
 
+import pytest
+
 from src.model import Model
 from tests.doubles import FakeModelObserver, FakeSound
 
 
-def test_model():
-    fake_sound = FakeSound()
-    model = Model(bpm=240, beat=fake_sound)
+@pytest.fixture
+def sound() -> FakeSound:
+    return FakeSound()
+
+
+@pytest.fixture
+def model(sound: FakeSound) -> Model:
+    return Model(bpm=240, beat=sound)
+
+
+def test_model(model: Model, sound: FakeSound) -> None:
     fake_observer = FakeModelObserver()
 
     model.start()
     sleep(0.51)
     model.stop()
-    assert fake_sound.calls == 3
+    assert sound.calls == 3
 
     sleep(0.51)
-    assert fake_sound.calls == 3
+    assert sound.calls == 3
 
-    fake_sound.reset()
+    sound.reset()
     model.register(fake_observer)
     model.bpm = 480
     assert fake_observer.updates == 1
@@ -25,12 +35,10 @@ def test_model():
     model.start()
     sleep(0.51)
     model.stop()
-    assert fake_sound.calls == 5
+    assert sound.calls == 5
 
 
-def test_is_playing():
-    fake_sound = FakeSound()
-    model = Model(bpm=240, beat=fake_sound)
+def test_is_playing(model: Model, sound: FakeSound) -> None:
     fake_observer = FakeModelObserver()
     model.register(fake_observer)
 
@@ -43,14 +51,11 @@ def test_is_playing():
     assert fake_observer.updates == 2
 
 
-def test_rapid_start_stop():
-    fake_sound = FakeSound()
-    model = Model(bpm=240, beat=fake_sound)
-
+def test_rapid_start_stop(model: Model, sound: FakeSound) -> None:
     model.start()
     sleep(0.1)
     model.stop()
     model.start()
     sleep(0.41)
     model.stop()
-    assert fake_sound.calls == 3
+    assert sound.calls == 3
