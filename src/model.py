@@ -2,14 +2,9 @@ from __future__ import annotations
 import threading
 from time import sleep
 from types import TracebackType
-from typing import Callable, Optional, Protocol, Type
+from typing import Callable, Optional, Type
 
 from .observable import Observable, Observer
-
-
-class ModelObserver(Protocol):
-    def update_(self, model: Model) -> None:
-        ...
 
 
 class Model:
