@@ -21,7 +21,7 @@ class Observable(Generic[T]):
         for observer in self._observers:
             observer.update_(value)
 
-    def __get__(self, obj: object, type=None) -> T:
+    def __get__(self, obj: object, type_: Optional[type] = None) -> T:
         if self._value is None:
             raise AttributeError('Value not set')
         return self._value
