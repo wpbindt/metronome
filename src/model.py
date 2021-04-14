@@ -54,9 +54,10 @@ class Model:
 
     def quit(self) -> None:
         self._quit_event.set()
+        self._can_play.set()  # cannot quit when paused
 
     def _beat_loop(self) -> None:
         while not self._quit_event.is_set():
-            self._can_play.wait()
             self._beat()
             sleep(self._seconds_per_beat)
+            self._can_play.wait()
