@@ -40,6 +40,11 @@ def test_is_playing(model: Model, sound: FakeSound) -> None:
 
 
 def test_rapid_start_stop(model: Model, sound: FakeSound) -> None:
+    """
+    Previously, this would start up a new metronome thread without ever
+    stopping the last, leading to two metronomes sounding at the same
+    time.
+    """
     model.start()
     sleep(0.1)
     model.stop()
