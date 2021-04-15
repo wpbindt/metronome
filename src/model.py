@@ -8,13 +8,15 @@ from .observable import Observable, Observer
 
 
 class Model:
-    _bpm_observers, bpm = Observable[int].create()
-    _is_playing_observers, is_playing = Observable[bool].create()
+    bpm = Observable[int]('_bpm_observers')
+    is_playing = Observable[bool]('_is_playing_observers')
 
     def __init__(self, bpm: int, beat: Callable[[], None]) -> None:
+        self._bpm_observers: list[Observer[int]] = []
         self.bpm = bpm
         self._beat = beat
         self._initialize_thread()
+        self._is_playing_observers: list[Observer[bool]] = []
         self.is_playing = False
 
     def __enter__(self) -> None:

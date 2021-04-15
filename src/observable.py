@@ -1,6 +1,6 @@
 from __future__ import annotations
 from abc import ABC, abstractmethod
-from typing import Generic, Optional, TypeVar
+from typing import Generic, TypeVar
 
 T = TypeVar('T')
 
@@ -12,21 +12,17 @@ class Observer(Generic[T], ABC):
 
 
 class Observable(Generic[T]):
-    def __init__(self, observers: list[Observer[T]]) -> None:
-        self._observers = observers
-        self._value: Optional[T] = None
+    def __init__(self, observers: str) -> None:
+        self.observers = observers
 
-    def __set__(self, obj: object, value: T) -> None:
-        self._value = value
-        for observer in self._observers:
+    def __set_name__(self, owner: type, name: str) -> None:
+        self.name = name
+
+    def __set__(self, instance: object, value: T) -> None:
+        instance.__dict__[self.name] = value
+        observers = instance.__dict__[self.observers]
+        for observer in observers:
             observer.update_(value)
 
-    def __get__(self, obj: object, type_: Optional[type] = None) -> T:
-        if self._value is None:
-            raise AttributeError('Value not set')
-        return self._value
-
-    @classmethod
-    def create(cls) -> tuple[list[Observer[T]], Observable[T]]:
-        observers: list[Observer[T]] = []
-        return observers, cls(observers)
+    def __get__(self, instance: object, owner: type = None) -> T:
+        return instance.__dict__[self.name]
