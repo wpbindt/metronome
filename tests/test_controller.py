@@ -1,5 +1,5 @@
-from src.controller import ControlsController, PlayPauseController
-from src.model import Model
+from metronome.controller import ControlsController, PlayPauseController
+from metronome.model import Model
 from tests.doubles import FakeSound
 
 

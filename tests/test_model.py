@@ -1,6 +1,6 @@
 from time import sleep
 
-from src.model import Model
+from metronome.model import Model
 from tests.doubles import FakeObserver, FakeSound
 
 
