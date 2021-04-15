@@ -1,13 +1,12 @@
 from __future__ import annotations
-from abc import ABC, abstractmethod
-from typing import Generic, TypeVar
+from typing import Generic, Protocol, TypeVar
 
 T = TypeVar('T')
+S = TypeVar('S', contravariant=True)
 
 
-class Observer(Generic[T], ABC):
-    @abstractmethod
-    def update_(self, value: T) -> None:
+class Observer(Protocol[S]):
+    def update_(self, value: S) -> None:
         ...
 
 

@@ -1,7 +1,5 @@
 from dataclasses import dataclass
-from typing import TypeVar
-
-from src.observable import Observer
+from typing import Generic, TypeVar
 
 
 @dataclass
@@ -19,7 +17,7 @@ T = TypeVar('T')
 
 
 @dataclass
-class FakeObserver(Observer[T]):
+class FakeObserver(Generic[T]):
     updates: int = 0
 
     def update_(self, value: T) -> None:
