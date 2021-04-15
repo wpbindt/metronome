@@ -2,10 +2,9 @@ import tkinter as tk
 
 from .controller import ControlsController, PlayPauseController
 from .model import Model
-from .observable import Observer
 
 
-class Display(tk.Frame, Observer[int]):
+class Display(tk.Frame):
     def __init__(self, master: tk.Frame, model: Model) -> None:
         super().__init__(master=master, height=2)
 
@@ -38,7 +37,7 @@ class Controls(tk.Frame):
         down_button.pack()
 
 
-class PlayPauseView(tk.Frame, Observer[bool]):
+class PlayPauseView(tk.Frame):
     def __init__(
         self,
         master: tk.Frame,
