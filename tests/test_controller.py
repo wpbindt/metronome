@@ -1,5 +1,5 @@
-from metronome.controller import ControlsController, PlayPauseController
-from metronome.model import Model
+from etronome.controller import ControlsController, PlayPauseController
+from etronome.model import Model
 from tests.doubles import FakeSound
 
 

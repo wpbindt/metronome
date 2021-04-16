@@ -2,7 +2,7 @@ from typing import Generator
 
 import pytest
 
-from metronome.model import Model
+from etronome.model import Model
 from tests.doubles import FakeSound
 
 
