@@ -18,6 +18,7 @@ def model(sound: FakeSound) -> Generator[Model, None, None]:
     yield model
     model.quit()
 
+
 @fixture
-def beat_model(model: Model) -> BeatCounter:
+def beat_counter(model: Model) -> BeatCounter:
     return BeatCounter(model)
