@@ -8,7 +8,7 @@ HERE = pathlib.Path(__file__).parent
 README = (HERE / 'README.md').read_text()
 
 setup(
-    name='stinky-metronome',
+    name='etronome',
     version='0.0.1',
     description='Keep track of a rythm',
     long_description=README,
@@ -21,7 +21,7 @@ setup(
         'License :: OSI Approved :: GNU General Public License v3 or later (GPLv3+)',
         'Programming Language :: Python :: 3.8'
     ],
-    packages=['metronome'],
+    packages=['etronome'],
     include_package_data=True,
 )
 
