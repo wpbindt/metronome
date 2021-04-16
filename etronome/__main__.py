@@ -15,7 +15,7 @@ def get_bpm() -> int:
 
 
 def run_metronome(bpm: int) -> None:
-    with resources.path(assets, 'test_sound.wav') as path:
+    with resources.path(assets, 'click.wav') as path:
         model = Model(bpm=bpm, beat=lambda: play_sound(path))
         with model:
             window = tk.Tk()
