@@ -4,7 +4,7 @@ from .model import Model
 
 
 class BeatCounter:
-    TIMEOUT = 1
+    TIMEOUT = 1.5
 
     def __init__(self, model: Model) -> None:
         self._model = model
