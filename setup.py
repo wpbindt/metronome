@@ -1,6 +1,6 @@
 import pathlib
 
-from setuptools import setup
+from setuptools import find_packages, setup
 
 
 HERE = pathlib.Path(__file__).parent
@@ -21,7 +21,7 @@ setup(
         'License :: OSI Approved :: GNU General Public License v3 or later (GPLv3+)',
         'Programming Language :: Python :: 3.8'
     ],
-    packages=['etronome'],
+    packages=find_packages(),
     include_package_data=True,
 )
 
