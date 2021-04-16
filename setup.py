@@ -3,15 +3,17 @@ import pathlib
 from setuptools import find_packages, setup
 
 
-HERE = pathlib.Path(__file__).parent
+here = pathlib.Path(__file__).parent
 
-README = (HERE / 'README.md').read_text()
+readme = (here / 'README.md').read_text()
+
+packages = find_packages(exclude=('tests',))
 
 setup(
     name='etronome',
-    version='0.0.1',
+    version='0.0.2',
     description='Keep track of a rythm',
-    long_description=README,
+    long_description=readme,
     long_description_content_type='text/markdown',
     url='https://github.com/wpbindt/metronome',
     author='Wessel Bindt',
@@ -21,7 +23,7 @@ setup(
         'License :: OSI Approved :: GNU General Public License v3 or later (GPLv3+)',
         'Programming Language :: Python :: 3.8'
     ],
-    packages=find_packages(),
+    packages=packages,
     include_package_data=True,
 )
 
