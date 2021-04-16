@@ -7,11 +7,11 @@ from .observable import Observable, Observer
 
 
 class Model:
-    bpm = Observable[int]('_bpm_observers')
+    bpm = Observable[float]('_bpm_observers')
     is_playing = Observable[bool]('_is_playing_observers')
 
-    def __init__(self, bpm: int, beat: Callable[[], None]) -> None:
-        self._bpm_observers: list[Observer[int]] = []
+    def __init__(self, bpm: float, beat: Callable[[], None]) -> None:
+        self._bpm_observers: list[Observer[float]] = []
         self.bpm = bpm
         self._beat = beat
         self._initialize_thread()
@@ -29,7 +29,7 @@ class Model:
     ) -> None:
         self.quit()
 
-    def register_for_bpm(self, observer: Observer[int]) -> None:
+    def register_for_bpm(self, observer: Observer[float]) -> None:
         self._bpm_observers.append(observer)
 
     def register_for_is_playing(self, observer: Observer[bool]) -> None:
