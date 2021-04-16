@@ -1,4 +1,6 @@
 from dataclasses import dataclass
+
+from .beat_counter import BeatCounter
 from .model import Model
 
 
@@ -22,3 +24,11 @@ class PlayPauseController:
             self.model.stop()
         else:
             self.model.start()
+
+
+@dataclass
+class TapperController:
+    beat_counter: BeatCounter
+
+    def button_action(self) -> None:
+        self.beat_counter.tap()

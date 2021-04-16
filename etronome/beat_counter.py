@@ -21,9 +21,9 @@ class BeatCounter:
             self._tap_times = [tap_time]
         else:
             self._tap_times.append(tap_time)
-            self._model.bpm = self.bpm
+            self._model.bpm = self._bpm
 
     @property
-    def bpm(self) -> float:
+    def _bpm(self) -> float:
         total_time = (self._tap_times[-1] - self._tap_times[0]).total_seconds()
         return 60 * (len(self._tap_times) - 1) / total_time

@@ -16,4 +16,4 @@ class Display(tk.Frame):
         model.register_for_bpm(self)
 
     def update_(self, value: float) -> None:
-        self.bpm['text'] = str(value)
+        self.bpm['text'] = str(int(value))
