@@ -10,14 +10,14 @@ def test_beat_counter_timeout(beat_counter: BeatCounter, model: Model) -> None:
     beat_counter.tap()
     sleep(BeatCounter.TIMEOUT + 0.1)
     beat_counter.tap()
-    assert model.bpm == approx(240)
+    assert model.bpm == approx(240, abs=1)
 
 
 def test_beat_counter(beat_counter: BeatCounter, model: Model) -> None:
     beat_counter.tap()
     sleep(0.5)
     beat_counter.tap()
-    assert model.bpm == approx(120)
+    assert model.bpm == approx(120, abs=1)
 
     sleep(BeatCounter.TIMEOUT + 0.1)
 
@@ -26,7 +26,7 @@ def test_beat_counter(beat_counter: BeatCounter, model: Model) -> None:
     beat_counter.tap()
     sleep(1/3)
     beat_counter.tap()
-    assert model.bpm == approx(180)
+    assert model.bpm == approx(180, abs=1)
 
 
 def test_beat_counter_average(beat_counter: BeatCounter, model: Model) -> None:
@@ -35,4 +35,4 @@ def test_beat_counter_average(beat_counter: BeatCounter, model: Model) -> None:
     beat_counter.tap()
     sleep(1/3 + 0.1)
     beat_counter.tap()
-    assert model.bpm == approx(180)
+    assert model.bpm == approx(180, abs=1)
