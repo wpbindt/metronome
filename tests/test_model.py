@@ -5,7 +5,7 @@ from tests.doubles import FakeObserver, FakeSound
 
 
 def test_model(model: Model, sound: FakeSound) -> None:
-    fake_observer: FakeObserver[int] = FakeObserver()
+    fake_observer: FakeObserver[float] = FakeObserver()
 
     model.start()
     sleep(0.51)
