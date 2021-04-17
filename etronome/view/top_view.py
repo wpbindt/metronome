@@ -11,6 +11,8 @@ class TopView(tk.Tk):
     def __init__(self, model: Model) -> None:
         super().__init__()
 
+        self.title('etronome')
+
         frame = tk.Frame(master=self)
 
         top_frame = tk.Frame(master=frame)
@@ -29,3 +31,5 @@ class TopView(tk.Tk):
 
         tapper = Tapper(master=frame, model=model)
         tapper.pack(side=tk.BOTTOM)
+
+        frame.pack()
