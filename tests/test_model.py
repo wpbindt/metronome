@@ -66,6 +66,6 @@ def test_model_validation(model: Model) -> None:
     assert observer.update_values == [0]
 
     observer.reset()
-    model.bpm = 1016
-    assert model.bpm == 1015
-    assert observer.update_values == [1015]
+    model.bpm = Model.MAX_BPM + 1
+    assert model.bpm == Model.MAX_BPM
+    assert observer.update_values == [Model.MAX_BPM]

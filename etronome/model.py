@@ -10,6 +10,7 @@ from .observable import Observable, Observer
 class Model:
     bpm = Observable[float]('_bpm_observers')
     is_playing = Observable[bool]('_is_playing_observers')
+    MAX_BPM = 1015
 
     def __init__(self, bpm: float, beat: Callable[[], None]) -> None:
         self._bpm_observers: list[Observer[float]] = []
