@@ -7,7 +7,7 @@ class Display(tk.Frame):
     def __init__(self, master: tk.Frame, model: Model) -> None:
         super().__init__(master=master, height=2)
 
-        self.bpm = tk.Label(master=self, text=str(model.bpm))
+        self.bpm = tk.Label(master=self, text=str(int(model.bpm)))
         self.bpm.pack(side=tk.LEFT)
 
         unit = tk.Label(master=self, text='bpm')
