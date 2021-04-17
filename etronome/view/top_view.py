@@ -7,11 +7,13 @@ from .tapper import Tapper
 from ..model import Model
 
 
-class TopView(tk.Frame):
-    def __init__(self, master: tk.Tk, model: Model) -> None:
-        super().__init__(master=master)
+class TopView(tk.Tk):
+    def __init__(self, model: Model) -> None:
+        super().__init__()
 
-        top_frame = tk.Frame(master=self)
+        frame = tk.Frame(master=self)
+
+        top_frame = tk.Frame(master=frame)
         left_frame = tk.Frame(master=top_frame)
         display = Display(master=left_frame, model=model)
         display.pack(side=tk.TOP)
@@ -25,7 +27,5 @@ class TopView(tk.Frame):
         controls.pack(side=tk.RIGHT)
         top_frame.pack(side=tk.TOP)
 
-        tapper = Tapper(master=self, model=model)
+        tapper = Tapper(master=frame, model=model)
         tapper.pack(side=tk.BOTTOM)
-
-        self.pack()

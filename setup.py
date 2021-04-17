@@ -20,10 +20,10 @@ setup(
     author_email='wesselbindt@gmail.com',
     license='GNU',
     classifiers=[
-        'License :: OSI Approved :: GNU General Public License v3 or later (GPLv3+)',
+        'License :: OSI Approved '
+        ':: GNU General Public License v3 or later (GPLv3+)',
         'Programming Language :: Python :: 3.8'
     ],
     packages=packages,
     include_package_data=True,
 )
-

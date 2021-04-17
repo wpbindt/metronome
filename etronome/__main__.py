@@ -1,6 +1,5 @@
 from argparse import ArgumentParser
 from importlib import resources
-import tkinter as tk
 
 from . import assets
 from .model import Model
@@ -18,8 +17,7 @@ def run_metronome(bpm: int) -> None:
     with resources.path(assets, 'click.wav') as path:
         model = Model(bpm=bpm, beat=lambda: play_sound(path))
         with model:
-            window = tk.Tk()
-            view = TopView(master=window, model=model)
+            window = TopView(model=model)
             window.mainloop()
 
 
