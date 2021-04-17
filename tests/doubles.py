@@ -16,9 +16,16 @@ class FakeSound:
 T = TypeVar('T')
 
 
-@dataclass
 class FakeObserver(Generic[T]):
-    updates: int = 0
+    def __init__(self) -> None:
+        self.update_values: list[T] = []
+
+    @property
+    def updates(self) -> int:
+        return len(self.update_values)
 
     def update_(self, value: T) -> None:
-        self.updates += 1
+        self.update_values.append(value)
+
+    def reset(self) -> None:
+        self.update_values = []

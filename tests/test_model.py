@@ -5,7 +5,7 @@ from tests.doubles import FakeObserver, FakeSound
 
 
 def test_model(model: Model, sound: FakeSound) -> None:
-    fake_observer: FakeObserver[float] = FakeObserver()
+    fake_observer = FakeObserver[float]()
 
     model.start()
     sleep(0.51)
@@ -25,8 +25,8 @@ def test_model(model: Model, sound: FakeSound) -> None:
     assert sound.calls == 5
 
 
-def test_is_playing(model: Model, sound: FakeSound) -> None:
-    fake_observer: FakeObserver[bool] = FakeObserver()
+def test_is_playing(model: Model) -> None:
+    fake_observer = FakeObserver[bool]()
     model.register_for_is_playing(fake_observer)
 
     model.start()
@@ -50,3 +50,17 @@ def test_rapid_start_stop(model: Model, sound: FakeSound) -> None:
     model.start()
     sleep(0.41)
     assert sound.calls == 3
+
+
+def test_model_validation(model: Model) -> None:
+    observer = FakeObserver[float]()
+    model.register_for_bpm(observer)
+
+    model.bpm = -100
+    assert model.bpm == 0
+    assert observer.update_values == [0]
+
+    observer.reset()
+    model.bpm = 1016
+    assert model.bpm == 1015
+    assert observer.update_values == [1015]
