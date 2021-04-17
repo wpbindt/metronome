@@ -11,7 +11,7 @@ packages = find_packages(exclude=('tests',))
 
 setup(
     name='etronome',
-    version='0.1.0',
+    version='0.1.1',
     description='Keep track of a rythm',
     long_description=readme,
     long_description_content_type='text/markdown',
