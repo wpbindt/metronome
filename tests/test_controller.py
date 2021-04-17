@@ -1,9 +1,8 @@
 from etronome.controller import ControlsController, PlayPauseController
 from etronome.model import Model
-from tests.doubles import FakeSound
 
 
-def test_controls_controller(model: Model, sound: FakeSound) -> None:
+def test_controls_controller(model: Model) -> None:
     controller = ControlsController(model=model)
 
     model.start()
@@ -15,7 +14,7 @@ def test_controls_controller(model: Model, sound: FakeSound) -> None:
     assert model.bpm == 240
 
 
-def test_play_pause_controller(model: Model, sound: FakeSound) -> None:
+def test_play_pause_controller(model: Model) -> None:
     controller = PlayPauseController(model)
 
     model.start()
