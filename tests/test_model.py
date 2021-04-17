@@ -56,14 +56,14 @@ def test_model_validation(model: Model) -> None:
     observer = FakeObserver[float]()
     model.register_for_bpm(observer)
 
-    model.bpm = -100
-    assert model.bpm == 0
-    assert observer.update_values == [0]
+    model.bpm = Model.MIN_BPM - 1
+    assert model.bpm == Model.MIN_BPM
+    assert observer.update_values == [Model.MIN_BPM]
 
     observer.reset()
     model.bpm -= 1
-    assert model.bpm == 0
-    assert observer.update_values == [0]
+    assert model.bpm == Model.MIN_BPM
+    assert observer.update_values == [Model.MIN_BPM]
 
     observer.reset()
     model.bpm = Model.MAX_BPM + 1
