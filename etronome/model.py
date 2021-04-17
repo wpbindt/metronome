@@ -1,3 +1,4 @@
+from __future__ import annotations
 import threading
 from time import sleep
 from types import TracebackType
@@ -18,8 +19,8 @@ class Model:
         self._is_playing_observers: list[Observer[bool]] = []
         self.is_playing = False
 
-    def __enter__(self) -> None:
-        self.start()
+    def __enter__(self) -> Model:
+        return self
 
     def __exit__(
         self,
@@ -58,7 +59,9 @@ class Model:
         self._can_play.set()  # cannot quit when paused
 
     def _beat_loop(self) -> None:
-        while not self._quit_event.is_set():
+        while True:
+            self._can_play.wait()
+            if self._quit_event.is_set():
+                break
             self._beat()
             sleep(self._seconds_per_beat)
-            self._can_play.wait()

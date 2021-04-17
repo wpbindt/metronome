@@ -10,7 +10,7 @@ from .view.top_view import TopView
 
 def get_bpm() -> int:
     parser = ArgumentParser()
-    parser.add_argument('bpm', type=int, default=120)
+    parser.add_argument('bpm', type=float, default=100, nargs='?')
     return parser.parse_args().bpm
 
 
