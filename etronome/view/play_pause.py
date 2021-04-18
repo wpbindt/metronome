@@ -14,7 +14,7 @@ class PlayPause(tk.Frame):
 
         controller = PlayPauseController(model)
 
-        self.button = tk.Button(master=self, text='play')
+        self.button = tk.Button(master=self, text='play', width=6)
         self.button.bind(
             '<Button 1>',
             lambda event: controller.button_action()
