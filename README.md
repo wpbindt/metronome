@@ -1,4 +1,4 @@
-# Metronome
+# Etronome
 Tkinter-based metronome.
 
 To install, run 
