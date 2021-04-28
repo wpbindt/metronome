@@ -50,8 +50,7 @@ class Model:
     def _initialize_thread(self) -> None:
         self._can_play = threading.Event()
         self._quit_event = threading.Event()
-        beat_thread = threading.Thread(target=self._beat_loop)
-        beat_thread.daemon = True
+        beat_thread = threading.Thread(target=self._beat_loop, daemon=True)
         beat_thread.start()
 
     def start(self) -> None:
