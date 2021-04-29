@@ -18,8 +18,8 @@ def run_metronome(bpm: int) -> None:
     with resources.path(assets, 'click.wav') as path:
         beat = partial(play_sound, path)
     model = Model(bpm=bpm, beat=beat)
+    window = TopView(model=model)
     with model:
-        window = TopView(model=model)
         window.mainloop()
 
 
