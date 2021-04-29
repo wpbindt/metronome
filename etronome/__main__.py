@@ -1,4 +1,5 @@
 from argparse import ArgumentParser
+from functools import partial
 from importlib import resources
 
 from . import assets
@@ -15,10 +16,11 @@ def get_bpm() -> int:
 
 def run_metronome(bpm: int) -> None:
     with resources.path(assets, 'click.wav') as path:
-        model = Model(bpm=bpm, beat=lambda: play_sound(path))
-        with model:
-            window = TopView(model=model)
-            window.mainloop()
+        beat = partial(play_sound, path)
+    model = Model(bpm=bpm, beat=beat)
+    with model:
+        window = TopView(model=model)
+        window.mainloop()
 
 
 def main() -> None:
